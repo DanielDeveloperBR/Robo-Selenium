@@ -8,6 +8,7 @@ async function op(driver, perguntaCerta) {
       if (op == perguntaCerta) {
         await opcoes[i].click();
         await driver.sleep(2000);
+        await driver.wait(until.elementLocated(By.xpath('/html/body/div[3]/footer/button')), 10000).click()
         break;
       }
     }
@@ -45,6 +46,8 @@ async function obterResposta(driver, perguntaGeral) {
     let opcaoTexto = await opcoes[i].getText();
     if (opcaoTexto === resposta) {
       await opcoes[i].click();
+      await driver.sleep(2000)
+      await driver.wait(until.elementLocated(By.xpath('/html/body/div[3]/footer/button')), 10000).click()
       break;
     }
   }
@@ -66,44 +69,26 @@ async function obterResposta(driver, perguntaGeral) {
     let resposta = eval(operacao);
     await op(driver, resposta);
 
-    // Clicar com JavaScript
-    await driver.wait(until.elementLocated(By.xpath('/html/body/div[3]/footer/button')), 10000).click()
-
     // Segunda pergunta
     let pergunta2 = await driver.wait(until.elementLocated(By.css('.que_text')), 10000).getText();
     let res2 = pergunta2.replace('2. Qual questão contém o texto "', "").replace('"?', "");
     await op(driver, res2);
 
-    // Clicar com JavaScript
-    await driver.wait(until.elementLocated(By.xpath('/html/body/div[3]/footer/button')), 10000).click()
-
     // Terceira pergunta
     let pergunta3 = await driver.wait(until.elementLocated(By.css('.que_text')), 10000).getText();
     await obterResposta(driver, pergunta3);
-
-    await driver.sleep(2000)
-    await driver.wait(until.elementLocated(By.xpath('/html/body/div[3]/footer/button')), 10000).click()
 
     // Quarta pergunta
     let pergunta4 = await driver.wait(until.elementLocated(By.css('.que_text')), 10000).getText();
     await obterResposta(driver, pergunta4);
 
-    await driver.sleep(2000)
-    await driver.wait(until.elementLocated(By.xpath('/html/body/div[3]/footer/button')), 10000).click()
-
     // Quinta pergunta
     let pergunta5 = await driver.wait(until.elementLocated(By.css('.que_text')), 20).getText();
     await obterResposta(driver, pergunta5);
 
-    await driver.sleep(2000)
-    await driver.wait(until.elementLocated(By.xpath('/html/body/div[3]/footer/button')), 10000).click()
-
     // Sexta pergunta
     let pergunta6 = await driver.wait(until.elementLocated(By.css('.que_text')), 10000).getText();
     await obterResposta(driver, pergunta6);
-
-    await driver.sleep(2000)
-    await driver.wait(until.elementLocated(By.xpath('/html/body/div[3]/footer/button')), 10000).click()
     await driver.sleep(3000)
   }
   finally {
